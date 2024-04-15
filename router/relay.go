@@ -16,7 +16,9 @@ func SetRelayRouter(router *gin.Engine) {
 		modelsRouter.GET("", controller.ListModels)
 		modelsRouter.GET("/:model", controller.RetrieveModel)
 	}
-	relayV1Router := router.Group("/v1")
+	// relayV1Router := router.Group("/v1")
+	apiRouter := router.Group("/api") // 添加这一行来定义/api前缀
+	relayv1Router := apiRouter.Group("/v1") // 修改这一行，将/api前缀加入路由组
 	relayV1Router.Use(middleware.RelayPanicRecover(), middleware.TokenAuth(), middleware.Distribute())
 	{
 		relayV1Router.POST("/completions", controller.Relay)
